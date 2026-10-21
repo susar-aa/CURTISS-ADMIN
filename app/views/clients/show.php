@@ -32,23 +32,23 @@ require_once __DIR__ . '/../layouts/sidebar.php';
       <p>Contact: <?= htmlspecialchars($client['contact_person']) ?> &bull; Client since <?= FormatHelper::date($client['created_at']) ?></p>
     </div>
 
-    <div class="d-flex align-items-center gap-2">
+    <div class="header-actions">
       <a href="<?= BASE_URL ?>/index.php?page=client_edit&id=<?= $client['id'] ?>" class="btn-ios-secondary">
         <i data-lucide="pencil"></i>
         <span>Edit</span>
       </a>
 
       <!-- Archive / Restore Action -->
-      <form action="<?= BASE_URL ?>/index.php?page=client_archive" method="POST" onsubmit="return confirm('<?= $client['is_archived'] ? 'Restore this client?' : 'Archive this client? All records will be preserved.' ?>');">
+      <form action="<?= BASE_URL ?>/index.php?page=client_archive" method="POST" onsubmit="return confirm('<?= $client['is_archived'] ? 'Restore this client?' : 'Archive this client? All records will be preserved.' ?>');" class="d-inline-flex m-0">
         <?= AuthHelper::csrfInput() ?>
         <input type="hidden" name="id" value="<?= $client['id'] ?>">
-        <button type="submit" class="btn-ios-secondary" title="<?= $client['is_archived'] ? 'Restore' : 'Archive' ?>">
+        <button type="submit" class="btn-ios-secondary w-100" title="<?= $client['is_archived'] ? 'Restore' : 'Archive' ?>">
           <i data-lucide="<?= $client['is_archived'] ? 'rotate-ccw' : 'archive' ?>"></i>
           <span><?= $client['is_archived'] ? 'Restore' : 'Archive' ?></span>
         </button>
       </form>
 
-      <button type="button" class="btn-ios-primary" style="width: auto;" data-bs-toggle="modal" data-bs-target="#addSubscriptionModal">
+      <button type="button" class="btn-ios-primary" data-bs-toggle="modal" data-bs-target="#addSubscriptionModal">
         <i data-lucide="plus"></i>
         <span>Add Subscription</span>
       </button>
@@ -130,30 +130,30 @@ require_once __DIR__ . '/../layouts/sidebar.php';
   </div>
 
   <!-- iOS-inspired Tab Navigation -->
-  <div class="ios-card p-2 mb-4">
-    <div class="d-flex flex-wrap gap-1">
+  <div class="ios-card p-2 mb-4" style="overflow-x: auto; -webkit-overflow-scrolling: touch;">
+    <div class="d-flex flex-nowrap gap-1 align-items-center" style="min-width: max-content;">
       <a href="<?= BASE_URL ?>/index.php?page=client_view&id=<?= $client['id'] ?>&tab=overview" 
-         class="btn-ios-secondary <?= $tab === 'overview' ? 'bg-dark text-white' : '' ?>" style="border: none;">
+         class="btn-ios-secondary <?= $tab === 'overview' ? 'bg-dark text-white' : '' ?>" style="border: none; white-space: nowrap;">
         <i data-lucide="info"></i>
         <span>Overview</span>
       </a>
       <a href="<?= BASE_URL ?>/index.php?page=client_view&id=<?= $client['id'] ?>&tab=subscriptions" 
-         class="btn-ios-secondary <?= $tab === 'subscriptions' ? 'bg-dark text-white' : '' ?>" style="border: none;">
+         class="btn-ios-secondary <?= $tab === 'subscriptions' ? 'bg-dark text-white' : '' ?>" style="border: none; white-space: nowrap;">
         <i data-lucide="layers"></i>
         <span>Subscriptions (<?= count($subscriptions) ?>)</span>
       </a>
       <a href="<?= BASE_URL ?>/index.php?page=client_view&id=<?= $client['id'] ?>&tab=payments" 
-         class="btn-ios-secondary <?= $tab === 'payments' ? 'bg-dark text-white' : '' ?>" style="border: none;">
+         class="btn-ios-secondary <?= $tab === 'payments' ? 'bg-dark text-white' : '' ?>" style="border: none; white-space: nowrap;">
         <i data-lucide="credit-card"></i>
         <span>Payments (<?= count($payments) ?>)</span>
       </a>
       <a href="<?= BASE_URL ?>/index.php?page=client_view&id=<?= $client['id'] ?>&tab=receipts" 
-         class="btn-ios-secondary <?= $tab === 'receipts' ? 'bg-dark text-white' : '' ?>" style="border: none;">
+         class="btn-ios-secondary <?= $tab === 'receipts' ? 'bg-dark text-white' : '' ?>" style="border: none; white-space: nowrap;">
         <i data-lucide="receipt"></i>
         <span>Invoices (<?= count($invoices) ?>)</span>
       </a>
       <a href="<?= BASE_URL ?>/index.php?page=client_view&id=<?= $client['id'] ?>&tab=activity" 
-         class="btn-ios-secondary <?= $tab === 'activity' ? 'bg-dark text-white' : '' ?>" style="border: none;">
+         class="btn-ios-secondary <?= $tab === 'activity' ? 'bg-dark text-white' : '' ?>" style="border: none; white-space: nowrap;">
         <i data-lucide="activity"></i>
         <span>Activity Log</span>
       </a>

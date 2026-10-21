@@ -21,14 +21,14 @@ $totalOutstandingAll = array_sum(array_column($clientOutstanding, 'total_outstan
       <h1>Reports & Analytics</h1>
       <p>Financial performance, receivable aging, and recurring run-rates</p>
     </div>
-    <div class="d-flex align-items-center gap-2">
+    <div class="header-actions">
       <a href="<?= BASE_URL ?>/index.php?page=report_export_pdf&start_date=<?= urlencode($startDate) ?>&end_date=<?= urlencode($endDate) ?>" target="_blank" class="btn-ios-secondary">
         <i data-lucide="file-text"></i>
-        <span>Export Report (PDF)</span>
+        <span>Export PDF</span>
       </a>
       <a href="<?= BASE_URL ?>/index.php?page=report_export_csv&start_date=<?= urlencode($startDate) ?>&end_date=<?= urlencode($endDate) ?>" class="btn-ios-secondary">
         <i data-lucide="download"></i>
-        <span>Export (CSV)</span>
+        <span>Export CSV</span>
       </a>
     </div>
   </div>
@@ -168,7 +168,40 @@ $totalOutstandingAll = array_sum(array_column($clientOutstanding, 'total_outstan
     </div>
 
     <?php if (!empty($clientOutstanding)): ?>
-      <div class="table-responsive">
+      <!-- Mobile Card List -->
+      <div class="d-md-none p-3">
+        <div class="d-flex flex-column gap-3">
+          <?php foreach ($clientOutstanding as $row): ?>
+            <div class="record-card-mobile">
+              <div class="d-flex align-items-center justify-content-between mb-2">
+                <a href="<?= BASE_URL ?>/index.php?page=client_view&id=<?= $row['id'] ?>" class="fw-bold text-decoration-none text-dark">
+                  <?= htmlspecialchars($row['company_name']) ?>
+                </a>
+                <span class="badge badge-ios-warning"><?= (int)$row['unpaid_invoices_count'] ?> Unpaid</span>
+              </div>
+              <div class="small text-muted mb-2">
+                Code: <span class="font-monospace">#<?= htmlspecialchars($row['client_code']) ?></span> &bull; <?= htmlspecialchars($row['contact_person']) ?>
+                <?php if (!empty($row['phone'])): ?>
+                  &bull; <a href="tel:<?= htmlspecialchars($row['phone']) ?>" class="text-muted"><?= htmlspecialchars($row['phone']) ?></a>
+                <?php endif; ?>
+              </div>
+              <div class="d-flex align-items-center justify-content-between pt-2 border-top">
+                <div>
+                  <div class="text-muted" style="font-size: 0.72rem;">Outstanding Due</div>
+                  <div class="fw-bold font-monospace text-danger" style="font-size: 1.05rem;"><?= FormatHelper::currency($row['total_outstanding']) ?></div>
+                </div>
+                <a href="<?= BASE_URL ?>/index.php?page=payment_create&client_id=<?= $row['id'] ?>" class="btn-ios-secondary" style="padding: 6px 14px; font-size: 0.8rem;">
+                  <i data-lucide="plus" style="width: 14px; height: 14px;"></i>
+                  <span>Record Pay</span>
+                </a>
+              </div>
+            </div>
+          <?php endforeach; ?>
+        </div>
+      </div>
+
+      <!-- Desktop Table -->
+      <div class="table-responsive d-none d-md-block">
         <table class="ios-table">
           <thead>
             <tr>

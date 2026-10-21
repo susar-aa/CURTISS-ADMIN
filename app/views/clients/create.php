@@ -15,7 +15,7 @@ require_once __DIR__ . '/../layouts/sidebar.php';
       <h1>New Client</h1>
       <p>Register a company or business client</p>
     </div>
-    <div>
+    <div class="header-actions">
       <a href="<?= BASE_URL ?>/index.php?page=clients" class="btn-ios-secondary">
         <i data-lucide="arrow-left"></i>
         <span>Back to List</span>
@@ -189,12 +189,14 @@ require_once __DIR__ . '/../layouts/sidebar.php';
         </div>
 
         <!-- Submit Buttons -->
-        <div class="col-12 mt-4 pt-2 d-flex justify-content-end gap-2">
-          <a href="<?= BASE_URL ?>/index.php?page=clients" class="btn-ios-secondary">Cancel</a>
-          <button type="submit" class="btn-ios-primary" style="width: auto; padding-left: 28px; padding-right: 28px;">
-            <i data-lucide="check"></i>
-            <span>Save Client</span>
-          </button>
+        <div class="col-12 mt-4 pt-2 d-flex justify-content-end">
+          <div class="form-submit-actions">
+            <a href="<?= BASE_URL ?>/index.php?page=clients" class="btn-ios-secondary">Cancel</a>
+            <button type="submit" class="btn-ios-primary" style="padding-left: 28px; padding-right: 28px;">
+              <i data-lucide="check"></i>
+              <span>Save Client</span>
+            </button>
+          </div>
         </div>
       </div>
     </form>

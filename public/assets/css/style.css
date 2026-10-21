@@ -81,7 +81,7 @@ h1, h2, h3, h4, h5, h6 {
   flex: 1;
   width: 100%;
   min-width: 0;
-  padding: 20px 16px 40px;
+  padding: 18px 16px calc(var(--bottom-nav-height) + 24px + env(safe-area-inset-bottom, 0px));
 }
 
 @media (min-width: 992px) {
@@ -454,11 +454,13 @@ h1, h2, h3, h4, h5, h6 {
 }
 
 .metric-value {
-  font-size: 1.65rem;
+  font-size: clamp(1.2rem, 4.2vw, 1.65rem);
   font-weight: 700;
   color: var(--c-black);
   letter-spacing: -0.03em;
   margin: 0;
+  word-break: break-word;
+  line-height: 1.2;
 }
 
 .metric-subtext {
@@ -582,6 +584,36 @@ h1, h2, h3, h4, h5, h6 {
   background-color: var(--c-white);
   border-color: var(--c-black);
   box-shadow: 0 0 0 3px rgba(9, 9, 11, 0.08);
+}
+
+@media (max-width: 767.98px) {
+  .form-control-ios {
+    font-size: 16px; /* Prevents iOS Safari auto-zoom on input focus */
+    padding: 10px 14px;
+  }
+  .ios-card {
+    padding: 16px;
+    border-radius: var(--radius-md);
+  }
+  .modal-dialog {
+    margin: 12px;
+  }
+  .modal-content {
+    border-radius: 20px !important;
+  }
+}
+
+.record-card-mobile {
+  background-color: var(--c-card-bg);
+  border: var(--border-subtle);
+  border-radius: var(--radius-md);
+  padding: 14px 16px;
+  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.02);
+  transition: all 0.15s ease;
+}
+
+.record-card-mobile:active {
+  background-color: var(--c-surface);
 }
 
 /* Buttons */
@@ -825,4 +857,35 @@ h1, h2, h3, h4, h5, h6 {
 
 .keypad-btn.action-btn:active {
   transform: scale(0.92);
+}
+
+/* Mobile Form Actions */
+.form-submit-actions {
+  display: flex;
+  flex-direction: column-reverse;
+  gap: 10px;
+  width: 100%;
+}
+
+.form-submit-actions .btn-ios-primary,
+.form-submit-actions .btn-ios-secondary {
+  width: 100%;
+  justify-content: center;
+}
+
+@media (min-width: 768px) {
+  .form-submit-actions {
+    flex-direction: row;
+    justify-content: flex-end;
+    width: auto;
+  }
+  .form-submit-actions .btn-ios-primary,
+  .form-submit-actions .btn-ios-secondary {
+    width: auto;
+  }
+}
+
+/* Items Table Mobile Scroll */
+#itemsTable {
+  min-width: 520px;
 }

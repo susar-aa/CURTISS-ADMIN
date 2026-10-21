@@ -17,7 +17,7 @@ require_once __DIR__ . '/../layouts/sidebar.php';
       <h1>New Invoice</h1>
       <p>Draft or issue a commercial invoice</p>
     </div>
-    <div>
+    <div class="header-actions">
       <a href="<?= BASE_URL ?>/index.php?page=billing" class="btn-ios-secondary">
         <i data-lucide="arrow-left"></i>
         <span>Cancel</span>
@@ -135,7 +135,7 @@ require_once __DIR__ . '/../layouts/sidebar.php';
 
     <!-- Line Items Card -->
     <div class="ios-card p-4 mb-4">
-      <div class="d-flex align-items-center justify-content-between mb-3">
+      <div class="d-flex flex-wrap align-items-center justify-content-between gap-2 mb-3">
         <div>
           <h3 class="card-title-clean">Itemized Services & Products</h3>
           <span class="text-muted small">Add unlimited rows with live calculation</span>

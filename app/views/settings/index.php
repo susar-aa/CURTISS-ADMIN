@@ -18,10 +18,10 @@ require_once __DIR__ . '/../layouts/sidebar.php';
       <h1>Settings & Configuration</h1>
       <p>Company branding, bank remittal details, and administrative controls</p>
     </div>
-    <div>
+    <div class="header-actions">
       <a href="<?= BASE_URL ?>/index.php?page=backup_db" class="btn-ios-secondary">
         <i data-lucide="database"></i>
-        <span>Download DB Backup</span>
+        <span>Download Backup</span>
       </a>
     </div>
   </div>
@@ -39,6 +39,35 @@ require_once __DIR__ . '/../layouts/sidebar.php';
       <?= htmlspecialchars($flashError) ?>
     </div>
   <?php endif; ?>
+
+  <!-- Mobile Account & Quick Links Card -->
+  <div class="ios-card p-3 mb-4 d-lg-none">
+    <div class="d-flex align-items-center justify-content-between mb-3">
+      <div class="d-flex align-items-center gap-3">
+        <div class="metric-icon-wrap" style="width: 44px; height: 44px; border-radius: 50%;">
+          <i data-lucide="user"></i>
+        </div>
+        <div>
+          <div class="fw-bold"><?= htmlspecialchars($currentUser['full_name'] ?? 'Admin') ?></div>
+          <div class="text-muted small"><?= htmlspecialchars($currentUser['email'] ?? '') ?> &bull; <?= htmlspecialchars($currentUser['role'] ?? 'Admin') ?></div>
+        </div>
+      </div>
+      <a href="<?= BASE_URL ?>/index.php?page=logout" class="btn-ios-secondary text-danger" style="border-color: #fee2e2; background: #fef2f2; padding: 6px 12px; font-size: 0.8rem;">
+        <i data-lucide="log-out" style="width: 14px; height: 14px;"></i>
+        <span>Sign Out</span>
+      </a>
+    </div>
+    <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 8px;">
+      <a href="<?= BASE_URL ?>/index.php?page=reminders" class="btn-ios-secondary justify-content-center">
+        <i data-lucide="bell" style="width: 15px; height: 15px;"></i>
+        <span>Reminders</span>
+      </a>
+      <a href="<?= BASE_URL ?>/index.php?page=reports" class="btn-ios-secondary justify-content-center">
+        <i data-lucide="bar-chart-3" style="width: 15px; height: 15px;"></i>
+        <span>Reports</span>
+      </a>
+    </div>
+  </div>
 
   <div class="row g-4 mb-4">
     <!-- Company Information Settings -->
@@ -186,24 +215,66 @@ require_once __DIR__ . '/../layouts/sidebar.php';
 
   <!-- Bank Account Management -->
   <div class="ios-card p-0 overflow-hidden mb-4">
-    <div class="p-4 border-bottom d-flex align-items-center justify-content-between">
+    <div class="p-4 border-bottom d-flex flex-wrap align-items-center justify-content-between gap-2">
       <div>
         <h3 class="card-title-clean">Bank Accounts & Public Remittance</h3>
         <span class="text-muted small">Manage bank accounts displayed to clients on the public payment page</span>
       </div>
-      <div class="d-flex gap-2">
+      <div class="header-actions">
         <a href="<?= BASE_URL ?>/index.php?page=pay" target="_blank" class="btn-ios-secondary">
           <i data-lucide="eye"></i>
           <span>View Public Page</span>
         </a>
-        <button type="button" class="btn-ios-primary" style="width: auto;" data-bs-toggle="modal" data-bs-target="#addBankModal">
+        <button type="button" class="btn-ios-primary" data-bs-toggle="modal" data-bs-target="#addBankModal">
           <i data-lucide="plus"></i>
           <span>Add Account</span>
         </button>
       </div>
     </div>
 
-    <div class="table-responsive">
+    <!-- Mobile Card View -->
+    <div class="d-md-none p-3">
+      <div class="d-flex flex-column gap-3">
+        <?php foreach ($bankAccounts as $acc): ?>
+          <div class="record-card-mobile">
+            <div class="d-flex align-items-center justify-content-between mb-2">
+              <span class="fw-bold"><?= htmlspecialchars($acc['bank_name']) ?></span>
+              <?php if (!empty($acc['is_primary'])): ?>
+                <span class="badge badge-ios-black">Primary</span>
+              <?php else: ?>
+                <span class="badge badge-ios-subtle">Secondary</span>
+              <?php endif; ?>
+            </div>
+            <div class="small text-muted mb-2">
+              Branch: <?= htmlspecialchars($acc['branch']) ?><br>
+              Account: <strong class="text-dark font-monospace"><?= htmlspecialchars($acc['account_number']) ?></strong><br>
+              Name: <?= htmlspecialchars($acc['account_name']) ?>
+            </div>
+            <?php if (empty($acc['is_primary'])): ?>
+              <div class="d-flex gap-2 pt-2 border-top">
+                <form action="<?= BASE_URL ?>/index.php?page=settings_bank_primary" method="POST" class="flex-grow-1 m-0">
+                  <?= AuthHelper::csrfInput() ?>
+                  <input type="hidden" name="id" value="<?= $acc['id'] ?>">
+                  <button type="submit" class="btn-ios-secondary w-100 justify-content-center" style="font-size: 0.8rem; padding: 6px;">
+                    <span>Set Primary</span>
+                  </button>
+                </form>
+                <form action="<?= BASE_URL ?>/index.php?page=settings_bank_delete" method="POST" onsubmit="return confirm('Remove this bank account?');" class="m-0">
+                  <?= AuthHelper::csrfInput() ?>
+                  <input type="hidden" name="id" value="<?= $acc['id'] ?>">
+                  <button type="submit" class="btn-logout" title="Remove Account">
+                    <i data-lucide="trash-2"></i>
+                  </button>
+                </form>
+              </div>
+            <?php endif; ?>
+          </div>
+        <?php endforeach; ?>
+      </div>
+    </div>
+
+    <!-- Desktop Table -->
+    <div class="table-responsive d-none d-md-block">
       <table class="ios-table">
         <thead>
           <tr>

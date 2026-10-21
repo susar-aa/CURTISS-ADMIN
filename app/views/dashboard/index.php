@@ -139,7 +139,25 @@ require_once __DIR__ . '/../layouts/sidebar.php';
         </div>
 
         <?php if (!empty($recentPayments)): ?>
-          <div class="table-responsive">
+          <!-- Mobile Card List -->
+          <div class="d-md-none p-3 pt-0">
+            <div class="d-flex flex-column gap-2">
+              <?php foreach ($recentPayments as $payment): ?>
+                <div class="p-3 bg-light rounded-3 d-flex align-items-center justify-content-between">
+                  <div class="min-w-0 pe-2">
+                    <div class="fw-semibold small text-truncate"><?= htmlspecialchars($payment['company_name']) ?></div>
+                    <div class="text-muted" style="font-size: 0.72rem;"><?= htmlspecialchars($payment['receipt_number']) ?> &bull; <?= FormatHelper::date($payment['payment_date']) ?></div>
+                  </div>
+                  <div class="text-end fw-bold font-monospace flex-shrink-0" style="color: #059669; font-size: 0.92rem;">
+                    +<?= FormatHelper::currency($payment['amount']) ?>
+                  </div>
+                </div>
+              <?php endforeach; ?>
+            </div>
+          </div>
+
+          <!-- Desktop Table -->
+          <div class="table-responsive d-none d-md-block">
             <table class="ios-table">
               <thead>
                 <tr>
@@ -184,7 +202,28 @@ require_once __DIR__ . '/../layouts/sidebar.php';
         </div>
 
         <?php if (!empty($upcomingDue)): ?>
-          <div class="table-responsive">
+          <!-- Mobile Card List -->
+          <div class="d-md-none p-3 pt-0">
+            <div class="d-flex flex-column gap-2">
+              <?php foreach ($upcomingDue as $due): ?>
+                <div class="p-3 bg-light rounded-3 d-flex align-items-center justify-content-between">
+                  <div class="min-w-0 pe-2">
+                    <div class="fw-semibold small text-truncate"><?= htmlspecialchars($due['company_name']) ?></div>
+                    <div class="text-muted" style="font-size: 0.72rem;"><?= htmlspecialchars($due['invoice_number']) ?> &bull; Due <?= FormatHelper::date($due['due_date']) ?></div>
+                  </div>
+                  <div class="text-end flex-shrink-0">
+                    <div class="fw-bold font-monospace" style="color: var(--c-danger); font-size: 0.92rem;">
+                      <?= FormatHelper::currency($due['balance_due']) ?>
+                    </div>
+                    <div><?= FormatHelper::statusBadge($due['status']) ?></div>
+                  </div>
+                </div>
+              <?php endforeach; ?>
+            </div>
+          </div>
+
+          <!-- Desktop Table -->
+          <div class="table-responsive d-none d-md-block">
             <table class="ios-table">
               <thead>
                 <tr>

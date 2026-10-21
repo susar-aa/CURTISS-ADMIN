@@ -1,0 +1,22 @@
+{
+  "name": "Curtiss Client Manager",
+  "short_name": "Curtiss",
+  "description": "Curtiss Company Client, Subscription and Billing Manager",
+  "start_url": "./index.php?page=dashboard",
+  "display": "standalone",
+  "background_color": "#ffffff",
+  "theme_color": "#09090b",
+  "icons": [
+    {
+      "src": "./assets/icons/icon.svg",
+      "sizes": "any",
+      "type": "image/svg+xml",
+      "purpose": "any maskable"
+    },
+    {
+      "src": "./assets/images/favicon.png",
+      "sizes": "512x512",
+      "type": "image/png"
+    }
+  ]
+}

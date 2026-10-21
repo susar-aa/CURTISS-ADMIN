@@ -1,7 +1,7 @@
 <?php
 declare(strict_types=1);
 /** @var string $pageTitle */
-$title = ($pageTitle ?? 'Curtiss Client Manager') . ' | Curtiss';
+$title = ($pageTitle ?? 'Curtiss Admin') . ' | Curtiss Admin';
 ?>
 <!DOCTYPE html>
 <html lang="en">
@@ -11,7 +11,7 @@ $title = ($pageTitle ?? 'Curtiss Client Manager') . ' | Curtiss';
   <meta name="theme-color" content="#09090b">
   <meta name="apple-mobile-web-app-capable" content="yes">
   <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
-  <meta name="apple-mobile-web-app-title" content="Curtiss">
+  <meta name="apple-mobile-web-app-title" content="Curtiss Admin">
   <title><?= htmlspecialchars($title) ?></title>
 
   <!-- PWA Manifest -->

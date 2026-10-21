@@ -7,7 +7,7 @@ declare(strict_types=1);
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, viewport-fit=cover">
   <meta name="theme-color" content="#09090b">
-  <title>Sign In | Curtiss Client Manager</title>
+  <title>Sign In | Curtiss Admin</title>
 
   <!-- PWA Manifest -->
   <link rel="manifest" href="<?= BASE_URL ?>/public/manifest.json">

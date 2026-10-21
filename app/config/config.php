@@ -35,7 +35,7 @@ if (session_status() === PHP_SESSION_NONE) {
 }
 
 // App Constants
-if (!defined('APP_NAME'))        define('APP_NAME', 'Curtiss Client Manager');
+if (!defined('APP_NAME'))        define('APP_NAME', 'Curtiss Admin');
 if (!defined('APP_COMPANY'))     define('APP_COMPANY', 'Curtiss');
 if (!defined('APP_VERSION'))     define('APP_VERSION', '1.0.0');
 if (!defined('CURRENCY_SYMBOL')) define('CURRENCY_SYMBOL', 'LKR ');

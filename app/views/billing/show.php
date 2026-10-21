@@ -25,9 +25,17 @@ require_once __DIR__ . '/../layouts/sidebar.php';
     </div>
 
     <!-- Actions Toolbar -->
-    <div class="d-flex flex-wrap align-items-center gap-2">
+    <div class="header-actions">
+      <!-- Record Payment Button (Mark as Paid) -->
+      <?php if (!in_array($invoice['status'], ['paid', 'cancelled'], true)): ?>
+        <button type="button" class="btn-ios-primary" data-bs-toggle="modal" data-bs-target="#recordPaymentModal" style="background: #059669; border-color: #059669;">
+          <i data-lucide="check-circle-2"></i>
+          <span>Record Payment</span>
+        </button>
+      <?php endif; ?>
+
       <!-- Print Invoice (Direct Web Print View) -->
-      <a href="<?= BASE_URL ?>/index.php?page=invoice_print&id=<?= $invoice['id'] ?>" target="_blank" class="btn-ios-primary" style="width: auto;">
+      <a href="<?= BASE_URL ?>/index.php?page=invoice_print&id=<?= $invoice['id'] ?>" target="_blank" class="btn-ios-primary">
         <i data-lucide="printer"></i>
         <span>Print Invoice</span>
       </a>
@@ -37,14 +45,6 @@ require_once __DIR__ . '/../layouts/sidebar.php';
         <i data-lucide="eye"></i>
         <span>Preview PDF</span>
       </a>
-
-      <!-- Record Payment Button (Mark as Paid) -->
-      <?php if (!in_array($invoice['status'], ['paid', 'cancelled'], true)): ?>
-        <button type="button" class="btn-ios-primary" data-bs-toggle="modal" data-bs-target="#recordPaymentModal" style="width: auto; background: #059669; border-color: #059669;">
-          <i data-lucide="check-circle-2"></i>
-          <span>Record Payment</span>
-        </button>
-      <?php endif; ?>
 
       <!-- Download PDF -->
       <a href="<?= BASE_URL ?>/index.php?page=invoice_pdf&id=<?= $invoice['id'] ?>&mode=download" class="btn-ios-secondary">
@@ -71,9 +71,9 @@ require_once __DIR__ . '/../layouts/sidebar.php';
         <form action="<?= BASE_URL ?>/index.php?page=billing_finalize" method="POST" onsubmit="return confirm('Finalize this invoice for billing?');">
           <?= AuthHelper::csrfInput() ?>
           <input type="hidden" name="id" value="<?= $invoice['id'] ?>">
-          <button type="submit" class="btn-ios-primary" style="width: auto;">
+          <button type="submit" class="btn-ios-primary">
             <i data-lucide="check"></i>
-            <span>Finalize Invoice</span>
+            <span>Finalize</span>
           </button>
         </form>
       <?php endif; ?>
@@ -83,8 +83,9 @@ require_once __DIR__ . '/../layouts/sidebar.php';
         <form action="<?= BASE_URL ?>/index.php?page=billing_cancel" method="POST" onsubmit="return confirm('Are you sure you want to cancel this invoice?');">
           <?= AuthHelper::csrfInput() ?>
           <input type="hidden" name="id" value="<?= $invoice['id'] ?>">
-          <button type="submit" class="btn-logout" title="Cancel Invoice" style="color: var(--c-danger); padding: 8px;">
+          <button type="submit" class="btn-ios-secondary" title="Cancel Invoice" style="color: var(--c-danger); border-color: rgba(239, 68, 68, 0.2);">
             <i data-lucide="x-circle"></i>
+            <span>Cancel</span>
           </button>
         </form>
       <?php endif; ?>

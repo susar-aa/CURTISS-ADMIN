@@ -1,6 +1,6 @@
 {
-  "name": "Curtiss Client Manager",
-  "short_name": "Curtiss",
+  "name": "Curtiss Admin",
+  "short_name": "Curtiss Admin",
   "description": "Curtiss Company Client, Subscription and Billing Manager",
   "start_url": "./index.php?page=dashboard",
   "display": "standalone",

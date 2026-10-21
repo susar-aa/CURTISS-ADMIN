@@ -19,19 +19,19 @@ require_once __DIR__ . '/../layouts/sidebar.php';
       <h1>Billing & Invoices</h1>
       <p><?= number_format($totalInvoices) ?> billing record<?= $totalInvoices === 1 ? '' : 's' ?></p>
     </div>
-    <div class="d-flex align-items-center gap-2">
-      <form action="<?= BASE_URL ?>/index.php?page=billing_generate_recurring" method="POST" class="d-inline" onsubmit="return confirm('Generate invoices for all subscriptions currently due?');">
-        <?= AuthHelper::csrfInput() ?>
-        <input type="hidden" name="redirect_to" value="billing">
-        <button type="submit" class="btn-ios-secondary" style="padding: 10px 16px;">
-          <i data-lucide="refresh-cw"></i>
-          <span>Run Subscription Billing</span>
-        </button>
-      </form>
-      <a href="<?= BASE_URL ?>/index.php?page=billing_create" class="btn-ios-primary" style="width: auto;">
+    <div class="header-actions">
+      <a href="<?= BASE_URL ?>/index.php?page=billing_create" class="btn-ios-primary">
         <i data-lucide="plus"></i>
         <span>Create Invoice</span>
       </a>
+      <form action="<?= BASE_URL ?>/index.php?page=billing_generate_recurring" method="POST" class="d-inline" onsubmit="return confirm('Generate invoices for all subscriptions currently due?');">
+        <?= AuthHelper::csrfInput() ?>
+        <input type="hidden" name="redirect_to" value="billing">
+        <button type="submit" class="btn-ios-secondary" title="Generate invoices for due subscriptions">
+          <i data-lucide="refresh-cw"></i>
+          <span>Run Billing</span>
+        </button>
+      </form>
     </div>
   </div>
 
@@ -68,7 +68,7 @@ require_once __DIR__ . '/../layouts/sidebar.php';
             name="q" 
             value="<?= htmlspecialchars($search ?? '') ?>" 
             class="form-control-ios ps-5" 
-            placeholder="Search by invoice number, company, or client code..."
+            placeholder="Search by invoice number, company, or code..."
           >
           <div class="position-absolute top-50 translate-middle-y text-muted" style="left: 16px;">
             <i data-lucide="search" style="width: 18px; height: 18px;"></i>
@@ -76,7 +76,7 @@ require_once __DIR__ . '/../layouts/sidebar.php';
         </div>
       </div>
 
-      <div class="col-6 col-md-3 col-lg-3">
+      <div class="col-8 col-md-4 col-lg-3">
         <select name="status" class="form-control-ios">
           <option value="">All Statuses</option>
           <option value="unpaid" <?= ($status ?? '') === 'unpaid' ? 'selected' : '' ?>>Unpaid</option>
@@ -87,8 +87,8 @@ require_once __DIR__ . '/../layouts/sidebar.php';
         </select>
       </div>
 
-      <div class="col-6 col-md-3 col-lg-2 d-flex gap-2">
-        <button type="submit" class="btn-ios-primary" style="padding: 10px 16px;">
+      <div class="col-4 col-md-2 col-lg-2 d-flex gap-2">
+        <button type="submit" class="btn-ios-primary flex-fill justify-content-center" style="padding: 10px 14px;">
           Filter
         </button>
         <?php if (!empty($search) || !empty($status)): ?>
@@ -100,10 +100,57 @@ require_once __DIR__ . '/../layouts/sidebar.php';
     </form>
   </div>
 
-  <!-- Invoices Table -->
+  <!-- Invoices List Container -->
   <div class="ios-card p-0 overflow-hidden">
     <?php if (!empty($invoices)): ?>
-      <div class="table-responsive">
+      <!-- 1. Mobile Card View (< 768px) -->
+      <div class="d-md-none p-3 d-flex flex-column gap-3">
+        <?php foreach ($invoices as $inv): ?>
+          <div class="invoice-card-mobile">
+            <div class="d-flex align-items-center justify-content-between mb-2">
+              <a href="<?= BASE_URL ?>/index.php?page=billing_view&id=<?= $inv['id'] ?>" class="badge badge-ios-black font-monospace text-decoration-none">
+                <?= htmlspecialchars($inv['invoice_number']) ?>
+              </a>
+              <?= FormatHelper::statusBadge($inv['status']) ?>
+            </div>
+            <div class="d-flex align-items-baseline justify-content-between mb-1">
+              <a href="<?= BASE_URL ?>/index.php?page=client_view&id=<?= $inv['client_id'] ?>" class="fw-bold text-dark text-decoration-none" style="font-size: 1.05rem;">
+                <?= htmlspecialchars($inv['company_name']) ?>
+              </a>
+              <span class="fw-bold" style="font-size: 1.1rem; color: #09090b;">
+                <?= FormatHelper::currency($inv['total_amount']) ?>
+              </span>
+            </div>
+            <div class="d-flex align-items-center justify-content-between text-muted small mb-3">
+              <span>Due: <?= FormatHelper::date($inv['due_date']) ?></span>
+              <?php if ((float)$inv['balance_due'] > 0): ?>
+                <span class="text-danger fw-semibold">Balance: <?= FormatHelper::currency($inv['balance_due']) ?></span>
+              <?php else: ?>
+                <span class="text-success fw-semibold">Paid in Full</span>
+              <?php endif; ?>
+            </div>
+            <div class="d-flex gap-2 pt-2 border-top">
+              <?php if (!in_array($inv['status'], ['paid', 'cancelled'], true)): ?>
+                <a href="<?= BASE_URL ?>/index.php?page=billing_view&id=<?= $inv['id'] ?>#recordPaymentModal" class="btn-ios-primary flex-fill justify-content-center" style="background: #059669; border-color: #059669; padding: 7px 10px; font-size: 0.82rem;">
+                  <i data-lucide="check-circle-2" style="width: 14px; height: 14px;"></i>
+                  <span>Pay</span>
+                </a>
+              <?php endif; ?>
+              <a href="<?= BASE_URL ?>/index.php?page=billing_view&id=<?= $inv['id'] ?>" class="btn-ios-secondary flex-fill justify-content-center" style="padding: 7px 10px; font-size: 0.82rem;">
+                <i data-lucide="eye" style="width: 14px; height: 14px;"></i>
+                <span>View</span>
+              </a>
+              <a href="<?= BASE_URL ?>/index.php?page=invoice_print&id=<?= $inv['id'] ?>" target="_blank" class="btn-ios-secondary flex-fill justify-content-center" style="padding: 7px 10px; font-size: 0.82rem;">
+                <i data-lucide="printer" style="width: 14px; height: 14px;"></i>
+                <span>Print</span>
+              </a>
+            </div>
+          </div>
+        <?php endforeach; ?>
+      </div>
+
+      <!-- 2. Desktop Table View (>= 768px) -->
+      <div class="table-responsive d-none d-md-block">
         <table class="ios-table">
           <thead>
             <tr>

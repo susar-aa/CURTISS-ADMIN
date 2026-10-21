@@ -302,28 +302,85 @@ h1, h2, h3, h4, h5, h6 {
 /* Top App Header (Mobile & Tablet) */
 .mobile-header {
   display: flex;
-  align-items: center;
-  justify-content: space-between;
-  margin-bottom: 24px;
+  flex-direction: column;
+  align-items: stretch;
+  gap: 12px;
+  margin-bottom: 20px;
   padding-top: env(safe-area-inset-top, 0);
 }
 
-@media (min-width: 992px) {
+@media (min-width: 768px) {
   .mobile-header {
-    margin-bottom: 32px;
+    flex-direction: row;
+    align-items: center;
+    justify-content: space-between;
+    gap: 16px;
+    margin-bottom: 28px;
   }
 }
 
+.header-greeting {
+  min-width: 0;
+}
+
 .header-greeting h1 {
-  font-size: 1.65rem;
+  font-size: 1.55rem;
   margin: 0;
   font-weight: 700;
+  letter-spacing: -0.025em;
+  line-height: 1.25;
 }
 
 .header-greeting p {
-  margin: 2px 0 0;
-  font-size: 0.88rem;
+  margin: 3px 0 0;
+  font-size: 0.85rem;
   color: var(--c-muted-gray);
+}
+
+.header-actions {
+  display: flex;
+  align-items: center;
+  flex-wrap: wrap;
+  gap: 8px;
+}
+
+@media (max-width: 767.98px) {
+  .header-actions {
+    width: 100%;
+    display: flex;
+    flex-wrap: wrap;
+    gap: 8px;
+  }
+
+  .header-actions > a,
+  .header-actions > button,
+  .header-actions > form {
+    flex: 1 1 calc(50% - 6px);
+    margin: 0;
+  }
+
+  .header-actions .btn-ios-primary,
+  .header-actions .btn-ios-secondary,
+  .header-actions form button {
+    width: 100% !important;
+    justify-content: center;
+    padding: 10px 12px;
+    font-size: 0.84rem;
+    white-space: nowrap;
+    border-radius: var(--radius-sm);
+  }
+}
+
+.invoice-card-mobile {
+  background-color: var(--c-card-bg);
+  border: var(--border-subtle);
+  border-radius: var(--radius-md);
+  padding: 16px;
+  transition: all 0.15s ease;
+}
+
+.invoice-card-mobile:active {
+  background-color: var(--c-surface);
 }
 
 /* iOS Cards */

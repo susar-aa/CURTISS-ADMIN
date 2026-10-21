@@ -1,12 +1,11 @@
 /**
- * Curtiss Client Manager - Service Worker
+ * Curtiss Admin - Service Worker
  */
 
-const CACHE_NAME = 'curtiss-cm-v1';
+const CACHE_NAME = 'curtiss-admin-v2';
 const ASSETS_TO_CACHE = [
   './assets/css/style.css',
-  './assets/js/app.js',
-  './assets/images/logo.png',
+  './assets/images/favicon.png',
   './manifest.json'
 ];
 
@@ -35,7 +34,6 @@ self.addEventListener('activate', (event) => {
 });
 
 self.addEventListener('fetch', (event) => {
-  // Only cache static assets (css, js, fonts)
   if (event.request.method === 'GET' && 
      (event.request.url.includes('/assets/') || event.request.url.includes('manifest.json'))) {
     event.respondWith(
